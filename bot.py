@@ -57,4 +57,19 @@ def run_discord_bot():
     async def roll(ctx):
         await ctx.send("Rolling...")
 
+    @client.command()
+    async def FTD(ctx): # FTD = "F**k the dealer (card game)"
+        await ctx.send("FTD")
+        message = await ctx.send("Players join within 10 seconds by reacting with a thumbs up")
+        thumbs_up = "👍"
+        def check(reaction, user):
+            return user == ctx.author and str(reaction.emoji) == thumbs_up
+
+        ace  = await ctx.send("Vote Ace as 1 or 14")
+        await message.add_reaction(thumbs_up)
+
+        
+
+    
+
     client.run(token)
