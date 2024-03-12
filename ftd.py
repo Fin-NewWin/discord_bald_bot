@@ -6,7 +6,7 @@ guesses = 2
 
 def createDeck():
     rank  = list(range(2, 11))
-    #my deck
+    #my deck test what the the new test what the heck
     suits = ["H", "D", "C", "S"]
     faces = {"Jack": 11, "Queen": 12, "King": 13, "Ace": 14}
     deck = []
