@@ -1,6 +1,7 @@
 import os
 
 import discord
+from discord.ext import commands
 from dotenv import load_dotenv
 
 import responses
@@ -23,27 +24,38 @@ async def send_message(message, user_message, is_private):
 
 def run_discord_bot():
     token = os.getenv("DISCORD_TOKEN") or ""
+
     intents = discord.Intents.default()
     intents.message_content = True
-    client = discord.Client(intents=intents)
+
+    prefix = "!"
+
+    client = commands.Bot(command_prefix=prefix, intents=intents)
 
     @client.event
     async def on_ready():
         print(f"{client.user} is ready.")
 
-    @client.event
-    async def on_message(msg):
-        if msg.author == client.user:
+    @client.listen()
+    async def on_message(message):
+        if message.author == client.user:
             return
 
-        username = str(msg.author)
-        user_message = str(msg.content)
-        channel = str(msg.channel)
-
-        print(user_message)
+        username = str(message.author)
+        user_message = str(message.content)
+        channel = str(message.channel)
 
         print(f"{username} said: '{user_message}' ({channel})")
 
-        await send_message(msg, user_message, is_private=False)
+        print(user_message[0])
+        if user_message[0] == prefix:
+            return
+        else:
+            await send_message(message, user_message, is_private=False)
+
+    @client.command()
+    async def roll(ctx):
+        print("working")
+        await ctx.send("Rolling...")
 
     client.run(token)

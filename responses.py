@@ -1,5 +1,4 @@
-def handle_response(message) -> str:
-    message = message.lower()
-    if message == "hello":
+def handle_response(msg):
+    msg = msg.lower()
+    if msg == "hello":
         return "Hi there!"
-    return ""
