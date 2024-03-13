@@ -64,19 +64,21 @@ def run_discord_bot():
     @client.command()
     async def opgg(ctx):
         # print(message)
-        responses = opggapi.retrieve_rank("na", "Not Relapse-NA1")
-        print(responses)
-        responses[3] = str(responses[3]).replace(" ", "%20")
+        responses = opggapi.retrieve_rank("na", "Not Relapse-NA")
+        if responses:
+            responses[3] = str(responses[3]).replace(" ", "%20")
 
-        embed = discord.Embed()
-        embed.set_author(
-            name="pho king#eboy",
-            url=str(responses[3]),
-            # icon_url=responses[0],
-        )
-        embed.set_thumbnail(url=responses[0])
-        embed.add_field(name="", value="LV. " + responses[4])
-        await ctx.send(embed=embed)
+            embed = discord.Embed()
+            embed.set_author(
+                name="pho king#eboy",
+                url=str(responses[3]),
+                # icon_url=responses[0],
+            )
+            embed.set_thumbnail(url=responses[0])
+            embed.add_field(name="", value="LV. " + responses[4])
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("User not found.")
 
     # FIX: pay for chat gpt to get tier 1 access
     #      can't use api because poor
