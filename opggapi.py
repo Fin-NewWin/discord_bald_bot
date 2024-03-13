@@ -20,6 +20,8 @@ def retrieve_rank(server, username):
 
     soup = BeautifulSoup(reply, "html.parser")
     pic = soup.find("div", {"class": "profile-icon"}).contents[0].attrs["src"]
+    level = soup.find("div", {"class": "level"}).contents[0].text
+
     try:
         tier = soup.find("div", {"class": "tier"}).contents[0]
         lp = soup.find("div", {"class": "lp"}).contents[0]
@@ -32,7 +34,7 @@ def retrieve_rank(server, username):
     # print(tier)
     # print(f"{lp} lp")
 
-    return [pic, tier, lp, url]
+    return [pic, tier, lp, url, level]
 
 
 # example usage

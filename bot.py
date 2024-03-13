@@ -68,15 +68,14 @@ def run_discord_bot():
         print(responses)
         responses[3] = str(responses[3]).replace(" ", "%20")
 
-        embed = discord.Embed(
-            title="pho king#eboy",
-            description=responses[1] + " " + responses[2],
+        embed = discord.Embed()
+        embed.set_author(
+            name="pho king#eboy",
             url=str(responses[3]),
-            color=discord.Color.random(),
+            # icon_url=responses[0],
         )
-        embed.set_image(url=responses[0])
-        print(responses[3])
-        print(responses[0])
+        embed.set_thumbnail(url=responses[0])
+        embed.add_field(name="", value="LV. " + responses[4])
         await ctx.send(embed=embed)
 
     # FIX: pay for chat gpt to get tier 1 access
