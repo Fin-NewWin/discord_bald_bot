@@ -64,18 +64,24 @@ def run_discord_bot():
     @client.command()
     async def opgg(ctx):
         # print(message)
-        responses = opggapi.retrieve_rank("na", "Not Relapse-NA")
+        name = "Pho King-eboy"
+        responses = opggapi.retrieve_rank("na", name)
         if responses:
-            responses[3] = str(responses[3]).replace(" ", "%20")
+            url = str(responses[1]).replace(" ", "%20")
 
             embed = discord.Embed()
             embed.set_author(
-                name="pho king#eboy",
-                url=str(responses[3]),
+                name=name.replace("-", "#"),
+                url=url,
                 # icon_url=responses[0],
             )
-            embed.set_thumbnail(url=responses[0])
-            embed.add_field(name="", value="LV. " + responses[4])
+            # embed.set_thumbnail(url=responses[0])
+            # embed.add_field(name="", value="LV. " + responses[4], inline=False)
+            # embed.add_field(
+            #     name="Ranked Solo/Duo",
+            #     value=responses[1].title() + "\n" + responses[2] + " LP",
+            #     inline=False,
+            # )
             await ctx.send(embed=embed)
         else:
             await ctx.send("User not found.")

@@ -21,24 +21,40 @@ def retrieve_rank(server, username):
 
         soup = BeautifulSoup(reply, "html.parser")
         pic = soup.find("div", {"class": "profile-icon"}).contents[0].attrs["src"]
-        level = soup.find("div", {"class": "level"}).contents[0].text
+        print(pic)
+        level = soup.find("div", {"class": "level"}).text
+        print(soup.find("div", {"class": "win-lose"}).text)
 
         try:
-            tier = soup.find("div", {"class": "tier"}).contents[0]
-            lp = soup.find("div", {"class": "lp"}).contents[0]
+            rank_solo_duo = (
+                soup.find("div", {"class": "css-1kw4425 ecc8cxr0"})
+                .find("div", {"class": "tier"})
+                .text
+            )
+            rank_flex = (
+                soup.find("div", {"class": "css-1ialdhq ecc8cxr0"})
+                .find("div", {"class": "tier"})
+                .text
+            ) or "Unranked"
+            print(rank_flex)
+            # find win and lose in rank
+            solo_lp = soup.find("div", {"class": "lp"}).text
         except AttributeError:
-            tier = "Unranked"
-            lp = ""
+            rank_solo_duo = "Unranked"
+            tier = None
+            solo_lp = ""
 
         # print(pic)
         # print(url)
         # print(tier)
         # print(f"{lp} lp")
 
-        return [pic, tier, lp, url, level]
+        return [pic, url, level, rank_solo_duo, solo_lp]
     except AttributeError:
         return None
 
 
 # example usage
-# retrieve_rank("na", "Not Relapse-NA1")
+retrieve_rank("na", "Pho King-eboy")
+retrieve_rank("na", "yeefide-NA1")
+retrieve_rank("na", "Not Relapse-NA1")
