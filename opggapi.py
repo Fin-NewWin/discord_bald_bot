@@ -15,33 +15,30 @@ def retrieve_rank(server, username):
         pic = soup.find("img", {"alt": "profile image"})
         if pic:
             pic = pic["src"]
+        print(pic)
 
-        # level = soup.find("div", {"class": "level"}).text
-        # print(soup.find("div", {"class": "win-lose"}).text)
+        level = soup.find("div", {"class": "level"})
+        if level:
+            level = level.text
+        print(level)
 
-        # try:
-        #     rank_solo_duo = (
-        #         soup.find("div", {"class": "css-1kw4425 ecc8cxr0"})
-        #         .find("div", {"class": "tier"})
-        #         .text
-        #     )
-        #     rank_flex = (
-        #         soup.find("div", {"class": "css-1ialdhq ecc8cxr0"})
-        #         .find("div", {"class": "tier"})
-        #         .text
-        #     ) or "Unranked"
-        #     print(rank_flex)
-        #     # find win and lose in rank
-        #     solo_lp = soup.find("div", {"class": "lp"}).text
-        # except AttributeError:
-        #     rank_solo_duo = "Unranked"
-        #     tier = None
-        #     solo_lp = ""
+        rank_solo_duo = soup.find("div", {"class": "css-1kw4425 ecc8cxr0"})
+        if rank_solo_duo:
+            rank_solo_duo = rank_solo_duo.find("div", {"class": "tier"})
+            if rank_solo_duo:
+                rank_solo_duo = rank_solo_duo.text.title()
+            else:
+                rank_solo_duo = "Unranked"
+        print(rank_solo_duo)
 
-        # print(pic)
-        # print(url)
-        # print(tier)
-        # print(f"{lp} lp")
+        rank_flex = soup.find("div", {"class": "css-1ialdhq ecc8cxr0"})
+        if rank_flex:
+            rank_flex = rank_flex.find("div", {"class": "tier"})
+            if rank_flex:
+                rank_flex = rank_flex.text.title()
+            else:
+                rank_flex = "Unranked"
+        print(rank_flex)
 
         # return [pic, url, level, rank_solo_duo, solo_lp]
         # return [pic, url, level]
