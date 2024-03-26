@@ -1,4 +1,6 @@
-import urllib3
+import random
+
+import requests
 from bs4 import BeautifulSoup
 
 
@@ -6,11 +8,15 @@ def retrieve_rank(server, username):
 
     try:
         url = f"https://www.op.gg/summoners/{server.lower()}/{username}"
-        http = urllib3.PoolManager()
-        response = http.request("GET", url, decode_content=True)
-        reply = response.data
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; rv:124.0) Gecko/20100101 Firefox/124.0",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+            "Alt-Used": "www.op.gg",
+            "Cookie": "_hackle_last_event_ts_3Gj3LiFYk3tUL82EOTg7sKdb=1711419968931; _hackle_hid=f168a3ad-86b5-4b83-948c-90ea0013e23e; _hackle_did_XYnC2Y883Gj3LiFYk3tUL82EOTg7sKdb=f168a3ad-86b5-4b83-948c-90ea0013e23e; _hackle_session_id_3Gj3LiFYk3tUL82EOTg7sKdb=1711406346309.58afd5ab; _hackle_mkt_XYnC2Y88=%7B%7D; _rs=%5B%5D; cf_clearance=6m4Y80V06SSQGolfzRiI_QzueN8nvJh9AAmmoZ0KUwQ-1711418227-1.0.1.1-cIRagHadTs94byuJL_CXUxCireYULaXthMfMYmc4YY_0E8KBrVs3Y7MsdfGIlTYkujuUe0Pmotrz5RVIzDvaVQ; _dd_s=rum=0&expire=1711420950016; __cf_bm=jUPxCxbRNPOCrnQKHlyYIR2achn5vz.d6AbloFp7l84-1711419833-1.0.1.1-RSY2FdGRtLAw0_ZxpUVlDlqyi_3I2argEehgrGYP4mn4vnZnQF3E7FrLEHlZc.wP51emvdGMjEkTIpRxifnN4A",
+        }
 
-        soup = BeautifulSoup(reply, "html.parser")
+        response = requests.get(url, headers=headers)
+        soup = BeautifulSoup(response.content, "html.parser")
 
         pic = soup.find("img", {"alt": "profile image"})
         if pic:
@@ -74,5 +80,5 @@ def retrieve_rank(server, username):
 
 # example usage
 retrieve_rank("na", "Pho King-eboy")
-retrieve_rank("na", "yeefide-NA1")
-retrieve_rank("na", "Not Relapse-NA1")
+# retrieve_rank("na", "yeefide-NA1")
+# retrieve_rank("na", "Not Relapse-NA1")
