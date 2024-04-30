@@ -1,22 +1,24 @@
-import random
-
-import requests
+import cloudscraper
+from bs4.element import Tag, NavigableString
 from bs4 import BeautifulSoup
 
 
-def retrieve_rank(server, username):
+def retrieve_rank(
+    server, username
+) -> list[str | list[str] | Tag | NavigableString | int | None]:
 
-    try:
-        url = f"https://www.op.gg/summoners/{server.lower()}/{username}"
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; rv:124.0) Gecko/20100101 Firefox/124.0",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-            "Alt-Used": "www.op.gg",
-            "Cookie": "_hackle_last_event_ts_3Gj3LiFYk3tUL82EOTg7sKdb=1711419968931; _hackle_hid=f168a3ad-86b5-4b83-948c-90ea0013e23e; _hackle_did_XYnC2Y883Gj3LiFYk3tUL82EOTg7sKdb=f168a3ad-86b5-4b83-948c-90ea0013e23e; _hackle_session_id_3Gj3LiFYk3tUL82EOTg7sKdb=1711406346309.58afd5ab; _hackle_mkt_XYnC2Y88=%7B%7D; _rs=%5B%5D; cf_clearance=6m4Y80V06SSQGolfzRiI_QzueN8nvJh9AAmmoZ0KUwQ-1711418227-1.0.1.1-cIRagHadTs94byuJL_CXUxCireYULaXthMfMYmc4YY_0E8KBrVs3Y7MsdfGIlTYkujuUe0Pmotrz5RVIzDvaVQ; _dd_s=rum=0&expire=1711420950016; __cf_bm=jUPxCxbRNPOCrnQKHlyYIR2achn5vz.d6AbloFp7l84-1711419833-1.0.1.1-RSY2FdGRtLAw0_ZxpUVlDlqyi_3I2argEehgrGYP4mn4vnZnQF3E7FrLEHlZc.wP51emvdGMjEkTIpRxifnN4A",
-        }
+    url = f"https://www.op.gg/summoners/{server.lower()}/{username}"
 
-        response = requests.get(url, headers=headers)
-        soup = BeautifulSoup(response.content, "html.parser")
+    # response = requests.Session()
+    # response = response.get(url, headers=headers, allow_redirects=True)
+
+    scraper = cloudscraper.create_scraper()
+    meG = scraper.get(url)
+
+    if meG.status_code != 403:
+
+        soup = BeautifulSoup(meG.content, "html.parser")
+        print(soup.prettify())
 
         pic = soup.find("img", {"alt": "profile image"})
         if pic:
@@ -31,6 +33,7 @@ def retrieve_rank(server, username):
         rank_solo_duo = soup.find("div", {"class": "css-1kw4425 ecc8cxr0"})
         rank_solo_duo_lp = None
         rank_solo_duo_wl = None
+        rank_solo_duo_tier = None
         if rank_solo_duo:
             rank_solo_duo_lp = rank_solo_duo.find("div", {"class": "lp"})
             rank_solo_duo_wl = rank_solo_duo.find("div", {"class": "win-lose"})
@@ -39,8 +42,6 @@ def retrieve_rank(server, username):
                 rank_solo_duo = rank_solo_duo.text.title()
                 rank_solo_duo_lp = rank_solo_duo_lp.text
                 rank_solo_duo_wl = rank_solo_duo_wl.text
-            else:
-                rank_solo_duo = "Unranked"
         print(rank_solo_duo)
         print(rank_solo_duo_lp)
         print(rank_solo_duo_wl)
@@ -73,12 +74,8 @@ def retrieve_rank(server, username):
             rank_flex_lp,
             rank_flex_wl,
         ]
-        # return [pic, url, level]
-    except AttributeError:
-        return None
+    return [None]
 
 
 # example usage
 retrieve_rank("na", "Pho King-eboy")
-# retrieve_rank("na", "yeefide-NA1")
-# retrieve_rank("na", "Not Relapse-NA1")
