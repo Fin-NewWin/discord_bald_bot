@@ -31,16 +31,16 @@ def retrieve_rank(
         print(level)
 
         rank_solo_duo = soup.find("div", {"class": "css-1kw4425 ecc8cxr0"})
-        rank_flex = soup.find("div", {"class": "css-1ialdhq ecc8cxr0"})
+        rank_flex = None
         if not rank_solo_duo:
             rank = soup.find_all("div", {"class": "css-1fb8d56 ecc8cxr1"})
             if rank:
                 rank_solo_duo = rank[0]
                 rank_flex = rank[1]
 
+        rank_flex = soup.find("div", {"class": "css-1ialdhq ecc8cxr0"})
         rank_solo_duo_lp = None
         rank_solo_duo_wl = None
-        rank_solo_duo_tier = None
         if rank_solo_duo:
             rank_solo_duo_lp = rank_solo_duo.find("div", {"class": "lp"})
             rank_solo_duo_wl = rank_solo_duo.find("div", {"class": "win-lose"})
@@ -69,17 +69,17 @@ def retrieve_rank(
         print(rank_flex_lp)
         print(rank_flex_wl)
 
-        # return [
-        #     pic,
-        #     url,
-        #     level,
-        #     rank_solo_duo,
-        #     rank_solo_duo_lp,
-        #     rank_solo_duo_wl,
-        #     rank_flex,
-        #     rank_flex_lp,
-        #     rank_flex_wl,
-        # ]
+        return [
+            pic,
+            url,
+            level,
+            rank_solo_duo,
+            rank_solo_duo_lp,
+            rank_solo_duo_wl,
+            rank_flex,
+            rank_flex_lp,
+            rank_flex_wl,
+        ]
     return [None]
 
 
