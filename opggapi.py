@@ -18,7 +18,7 @@ def retrieve_rank(
     if meG.status_code != 403:
 
         soup = BeautifulSoup(meG.content, "html.parser")
-        print(soup.prettify())
+        # print(soup.prettify())
 
         pic = soup.find("img", {"alt": "profile image"})
         if pic:
@@ -31,6 +31,13 @@ def retrieve_rank(
         print(level)
 
         rank_solo_duo = soup.find("div", {"class": "css-1kw4425 ecc8cxr0"})
+        rank_flex = soup.find("div", {"class": "css-1ialdhq ecc8cxr0"})
+        if not rank_solo_duo:
+            rank = soup.find_all("div", {"class": "css-1fb8d56 ecc8cxr1"})
+            if rank:
+                rank_solo_duo = rank[0]
+                rank_flex = rank[1]
+
         rank_solo_duo_lp = None
         rank_solo_duo_wl = None
         rank_solo_duo_tier = None
@@ -46,7 +53,6 @@ def retrieve_rank(
         print(rank_solo_duo_lp)
         print(rank_solo_duo_wl)
 
-        rank_flex = soup.find("div", {"class": "css-1ialdhq ecc8cxr0"})
         rank_flex_lp = None
         rank_flex_wl = None
         if rank_flex:
@@ -63,17 +69,17 @@ def retrieve_rank(
         print(rank_flex_lp)
         print(rank_flex_wl)
 
-        return [
-            pic,
-            url,
-            level,
-            rank_solo_duo,
-            rank_solo_duo_lp,
-            rank_solo_duo_wl,
-            rank_flex,
-            rank_flex_lp,
-            rank_flex_wl,
-        ]
+        # return [
+        #     pic,
+        #     url,
+        #     level,
+        #     rank_solo_duo,
+        #     rank_solo_duo_lp,
+        #     rank_solo_duo_wl,
+        #     rank_flex,
+        #     rank_flex_lp,
+        #     rank_flex_wl,
+        # ]
     return [None]
 
 
