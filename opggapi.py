@@ -38,7 +38,8 @@ def retrieve_rank(
                 rank_solo_duo = rank[0]
                 rank_flex = rank[1]
 
-        rank_flex = soup.find("div", {"class": "css-1ialdhq ecc8cxr0"})
+        if not rank_flex:
+            rank_flex = soup.find("div", {"class": "css-1ialdhq ecc8cxr0"})
         rank_solo_duo_lp = None
         rank_solo_duo_wl = None
         if rank_solo_duo:
@@ -84,4 +85,4 @@ def retrieve_rank(
 
 
 # example usage
-retrieve_rank("na", "Pho King-eboy")
+# retrieve_rank("na", "Pho King-eboy")

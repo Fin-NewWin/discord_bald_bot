@@ -66,25 +66,25 @@ def run_discord_bot():
         # print(message)
         name = "Pho King-eboy"
         responses = opggapi.retrieve_rank("na", name)
-        if responses:
-            url = str(responses[1]).replace(" ", "%20")
+        # if responses:
+        #     url = str(responses[1]).replace(" ", "%20")
 
-            embed = discord.Embed()
-            embed.set_author(
-                name=name.replace("-", "#"),
-                url=url,
-                # icon_url=responses[0],
-            )
-            # embed.set_thumbnail(url=responses[0])
-            # embed.add_field(name="", value="LV. " + responses[4], inline=False)
-            # embed.add_field(
-            #     name="Ranked Solo/Duo",
-            #     value=responses[1].title() + "\n" + responses[2] + " LP",
-            #     inline=False,
-            # )
-            await ctx.send(embed=embed)
-        else:
-            await ctx.send("User not found.")
+        #     embed = discord.Embed()
+        #     embed.set_author(
+        #         name=name.replace("-", "#"),
+        #         url=url,
+        #         # icon_url=responses[0],
+        #     )
+        # embed.set_thumbnail(url=responses[0])
+        # embed.add_field(name="", value="LV. " + responses[4], inline=False)
+        # embed.add_field(
+        #     name="Ranked Solo/Duo",
+        #     value=responses[1].title() + "\n" + responses[2] + " LP",
+        #     inline=False,
+        # )
+        #     await ctx.send(embed=embed)
+        # else:
+        #     await ctx.send("User not found.")
 
     # FIX: pay for chat gpt to get tier 1 access
     #      can't use api because poor
