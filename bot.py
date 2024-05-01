@@ -64,27 +64,44 @@ def run_discord_bot():
     @client.command()
     async def opgg(ctx):
         # print(message)
-        name = "Pho King-eboy"
+        # name = "Pho King-eboy"
+        name = ctx.message.content.replace("!opgg", "").lstrip(" ")
+        print(name)
         responses = opggapi.retrieve_rank("na", name)
-        # if responses:
-        #     url = str(responses[1]).replace(" ", "%20")
+        print(responses)
+        if responses:
+            url = str(responses[1]).replace(" ", "%20")
 
-        #     embed = discord.Embed()
-        #     embed.set_author(
-        #         name=name.replace("-", "#"),
-        #         url=url,
-        #         # icon_url=responses[0],
-        #     )
-        # embed.set_thumbnail(url=responses[0])
-        # embed.add_field(name="", value="LV. " + responses[4], inline=False)
-        # embed.add_field(
-        #     name="Ranked Solo/Duo",
-        #     value=responses[1].title() + "\n" + responses[2] + " LP",
-        #     inline=False,
-        # )
-        #     await ctx.send(embed=embed)
-        # else:
-        #     await ctx.send("User not found.")
+            embed = discord.Embed()
+            embed.set_author(
+                name=name.replace("-", "#"),
+                url=url,
+                # icon_url=responses[0],
+            )
+            embed.set_thumbnail(url=responses[0])
+            embed.add_field(name="", value="LV. " + str(responses[2]), inline=False)
+            embed.add_field(
+                name="Ranked Solo/Duo",
+                value=str(responses[3])
+                + "\n"
+                + str(responses[4])
+                + "\n"
+                + str(responses[5]),
+                inline=False,
+            )
+
+            embed.add_field(
+                name="Ranked Flex",
+                value=str(responses[6])
+                + "\n"
+                + str(responses[7])
+                + "\n"
+                + str(responses[8]),
+                inline=False,
+            )
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("User not found. Please input as `!opgg username-1234`")
 
     # FIX: pay for chat gpt to get tier 1 access
     #      can't use api because poor

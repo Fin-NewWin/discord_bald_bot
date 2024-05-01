@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 def retrieve_rank(
     server, username
-) -> list[str | list[str] | Tag | NavigableString | int | None]:
+) -> list[str | list[str] | Tag | NavigableString | int | None] | None:
 
     url = f"https://www.op.gg/summoners/{server.lower()}/{username}"
 
@@ -15,20 +15,20 @@ def retrieve_rank(
     scraper = cloudscraper.create_scraper()
     meG = scraper.get(url)
 
-    if meG.status_code != 403:
+    if meG.status_code == 200:
 
         soup = BeautifulSoup(meG.content, "html.parser")
         # print(soup.prettify())
+        if soup.find("h2", {"class": "header__title"}):
+            return None
 
         pic = soup.find("img", {"alt": "profile image"})
         if pic:
             pic = pic["src"]
-        print(pic)
 
         level = soup.find("div", {"class": "level"})
         if level:
             level = level.text
-        print(level)
 
         rank_solo_duo = soup.find("div", {"class": "css-1kw4425 ecc8cxr0"})
         rank_flex = None
@@ -37,9 +37,9 @@ def retrieve_rank(
             if rank:
                 rank_solo_duo = rank[0]
                 rank_flex = rank[1]
-
-        if not rank_flex:
+        else:
             rank_flex = soup.find("div", {"class": "css-1ialdhq ecc8cxr0"})
+
         rank_solo_duo_lp = None
         rank_solo_duo_wl = None
         if rank_solo_duo:
@@ -50,9 +50,6 @@ def retrieve_rank(
                 rank_solo_duo = rank_solo_duo.text.title()
                 rank_solo_duo_lp = rank_solo_duo_lp.text
                 rank_solo_duo_wl = rank_solo_duo_wl.text
-        print(rank_solo_duo)
-        print(rank_solo_duo_lp)
-        print(rank_solo_duo_wl)
 
         rank_flex_lp = None
         rank_flex_wl = None
@@ -66,9 +63,6 @@ def retrieve_rank(
                 rank_flex_wl = rank_flex_wl.text
             else:
                 rank_flex = "Unranked"
-        print(rank_flex)
-        print(rank_flex_lp)
-        print(rank_flex_wl)
 
         return [
             pic,
@@ -81,8 +75,9 @@ def retrieve_rank(
             rank_flex_lp,
             rank_flex_wl,
         ]
-    return [None]
+    return None
 
 
 # example usage
-# retrieve_rank("na", "Pho King-eboy")
+retrieve_rank("na", "Pho King-eboy")
+retrieve_rank("na", "pho king-shit")
