@@ -1,4 +1,4 @@
-import datetime
+# import datetime
 import os
 
 import discord
@@ -79,25 +79,39 @@ def run_discord_bot():
             )
             embed.set_thumbnail(url=responses[0])
             embed.add_field(name="", value="LV. " + str(responses[2]), inline=False)
-            embed.add_field(
-                name="Ranked Solo/Duo",
-                value=str(responses[3])
-                + "\n"
-                + str(responses[4])
-                + "\n"
-                + str(responses[5]),
-                inline=False,
-            )
+            if responses[3]:
+                embed.add_field(
+                    name="Ranked Solo/Duo",
+                    value=str(responses[3])
+                    + "\n"
+                    + str(responses[4])
+                    + "\n"
+                    + str(responses[5]),
+                    inline=False,
+                )
+            else:
+                embed.add_field(
+                    name="Ranked Solo/Duo",
+                    value="Unranked",
+                    inline=False,
+                )
 
-            embed.add_field(
-                name="Ranked Flex",
-                value=str(responses[6])
-                + "\n"
-                + str(responses[7])
-                + "\n"
-                + str(responses[8]),
-                inline=False,
-            )
+            if responses[6]:
+                embed.add_field(
+                    name="Ranked Flex",
+                    value=str(responses[6])
+                    + "\n"
+                    + str(responses[7])
+                    + "\n"
+                    + str(responses[8]),
+                    inline=False,
+                )
+            else:
+                embed.add_field(
+                    name="Ranked Flex",
+                    value="Unranked",
+                    inline=False,
+                )
             await ctx.send(embed=embed)
         else:
             await ctx.send("User not found. Please input as `!opgg username-1234`")

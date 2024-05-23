@@ -1,6 +1,6 @@
 import cloudscraper
-from bs4.element import Tag, NavigableString
 from bs4 import BeautifulSoup
+from bs4.element import NavigableString, Tag
 
 
 def retrieve_rank(
@@ -35,7 +35,7 @@ def retrieve_rank(
         if not rank_solo_duo:
             rank = soup.find_all("div", {"class": "css-1fb8d56 ecc8cxr1"})
             if rank:
-                rank_solo_duo = rank[0]
+                rank_solo_duo = rank[0].text
                 rank_flex = rank[1]
         else:
             rank_flex = soup.find("div", {"class": "css-1ialdhq ecc8cxr0"})
@@ -61,8 +61,6 @@ def retrieve_rank(
                 rank_flex = rank_flex.text.title()
                 rank_flex_lp = rank_flex_lp.text
                 rank_flex_wl = rank_flex_wl.text
-            else:
-                rank_flex = "Unranked"
 
         return [
             pic,
