@@ -5,8 +5,8 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-import opggapi
 import responses
+from commands import web
 
 load_dotenv()
 
@@ -64,10 +64,10 @@ def run_discord_bot():
     @client.command()
     async def opgg(ctx):
         # print(message)
-        # name = "Pho King-eboy"
+        name = "Pho King-eboy"
         name = ctx.message.content.replace("!opgg", "").lstrip(" ")
-        print(name)
-        responses = opggapi.retrieve_rank("na", name)
+        # print(name)
+        responses = web.OPGGApi.retrieve_rank("na", name)
         print(responses)
         if responses:
             url = str(responses[1]).replace(" ", "%20")
