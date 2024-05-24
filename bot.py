@@ -5,20 +5,20 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-import responses
-from commands import web
+from commands import response, web
 
 load_dotenv()
 
 
 async def send_message(message, user_message, is_private):
     try:
-        response = responses.handle_response(user_message)
-        if response:
+        pass
+        res = response.Responses(user_message)
+        if res:
             (
-                await message.author.send(response)
+                await message.author.send(res)
                 if is_private
-                else await message.channel.send(response)
+                else await message.channel.send(res)
             )
 
     except Exception as e:
@@ -67,26 +67,22 @@ def run_discord_bot():
         name = "Pho King-eboy"
         name = ctx.message.content.replace("!opgg", "").lstrip(" ")
         # print(name)
-        responses = web.OPGGApi.retrieve_rank("na", name)
-        print(responses)
-        if responses:
-            url = str(responses[1]).replace(" ", "%20")
+        res = web.OPGGApi.retrieve_rank("na", name)
+        print(res)
+        if res:
+            url = str(res[1]).replace(" ", "%20")
             embed = discord.Embed()
             embed.set_author(
                 name=name.replace("-", "#"),
                 url=url,
                 # icon_url=responses[0],
             )
-            embed.set_thumbnail(url=responses[0])
-            embed.add_field(name="", value="LV. " + str(responses[2]), inline=False)
-            if responses[3]:
+            embed.set_thumbnail(url=res[0])
+            embed.add_field(name="", value="LV. " + str(res[2]), inline=False)
+            if res[3]:
                 embed.add_field(
                     name="Ranked Solo/Duo",
-                    value=str(responses[3])
-                    + "\n"
-                    + str(responses[4])
-                    + "\n"
-                    + str(responses[5]),
+                    value=str(res[3]) + "\n" + str(res[4]) + "\n" + str(res[5]),
                     inline=False,
                 )
             else:
@@ -96,14 +92,10 @@ def run_discord_bot():
                     inline=False,
                 )
 
-            if responses[6]:
+            if res[6]:
                 embed.add_field(
                     name="Ranked Flex",
-                    value=str(responses[6])
-                    + "\n"
-                    + str(responses[7])
-                    + "\n"
-                    + str(responses[8]),
+                    value=str(res[6]) + "\n" + str(res[7]) + "\n" + str(res[8]),
                     inline=False,
                 )
             else:

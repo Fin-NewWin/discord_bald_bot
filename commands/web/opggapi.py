@@ -45,6 +45,7 @@ class OPGGApi:
             rank_solo_duo_wl = None
             if rank_solo_duo:
                 rank_solo_duo_lp = rank_solo_duo.find("div", {"class": "lp"})
+                print(rank_solo_duo_lp)
                 rank_solo_duo_wl = rank_solo_duo.find("div", {"class": "win-lose"})
                 rank_solo_duo = rank_solo_duo.find("div", {"class": "tier"})
                 if rank_solo_duo and rank_solo_duo_lp and rank_solo_duo_wl:
